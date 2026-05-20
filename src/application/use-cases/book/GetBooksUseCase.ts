@@ -8,7 +8,8 @@ export class GetBooksUseCase {
 
     const queryBuilder = bookRepository.createQueryBuilder("book")
         .leftJoinAndSelect("book.seller", "seller")
-        .where("book.status = :status", { status: Status.ACTIVE });
+        .where("book.status = :status", { status: Status.ACTIVE })
+        .andWhere("book.available = :available", { available: true });
 
     if (department && typeof department === 'string' && department.trim() !== '') {
       queryBuilder.andWhere("book.department = :department", { department });
