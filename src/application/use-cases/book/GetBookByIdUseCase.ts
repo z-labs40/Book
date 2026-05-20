@@ -4,10 +4,18 @@ import { Book } from '../../../adapters/models/Book';
 export class GetBookByIdUseCase {
   async execute(id: string) {
     const bookRepository = AppDataSource.getRepository(Book);
-    const book = await bookRepository.findOne({
-      where: { id },
-      relations: ["seller"]
-    });
+    const isValidUuid = id && id.includes("-") && id.length === 36;
+    let book = null;
+    if (isValidUuid) {
+      book = await bookRepository.findOne({
+        where: { id },
+        relations: ["seller"]
+      });
+    } else {
+      const books = await bookRepository.find({ relations: ["seller"] });
+      const toSlug = (title: string) => title.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      book = books.find(b => toSlug(b.title) === id) || null;
+    }
 
     if (!book) return null;
 
