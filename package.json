@@ -2,9 +2,11 @@
   "name": "book",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/frameworks/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/frameworks/server.js",
     "dev": "ts-node-dev src/frameworks/server.ts"
   },
   "keywords": [],
