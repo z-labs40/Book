@@ -28,6 +28,10 @@ app.get("/", (req, res) => {
   res.send("BookResale API is running...");
 });
 
+app.get("/health", (req, res) => {
+  res.json({ status: "UP", timestamp: new Date().toISOString() });
+});
+
 // Live server entry point
 app.listen(PORT, async () => {
   logger.info(`Server is running on port ${PORT}`);
